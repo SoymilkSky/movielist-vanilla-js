@@ -5,6 +5,10 @@
   font-family: sans-serif;
 }
 
+.search {
+  text-align: center;
+}
+
 .movie-list {
   display: flex;
   flex-direction: row;

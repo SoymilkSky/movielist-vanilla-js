@@ -29,6 +29,4 @@ class ListItem extends HTMLElement {
   }
 }
 
-customElements.define('list-item', ListItem);
-
 export default ListItem;
