@@ -1,10 +1,10 @@
 import movies from './data.js';
+import addListItem from './listItem.js';
 import API_KEY from '../config.js';
 
 class AddMovie extends HTMLElement {
   constructor() {
     super();
-    this.searchTerm = '';
 
     this.fetchMovies.bind(this);
   };
@@ -19,23 +19,23 @@ class AddMovie extends HTMLElement {
         .then((response) => response.json())
         .then((data) => {
           const movie = {
-            Title: data.original_title,
-            imdbRating: data.vote_average,
-            Plot: data.overview,
-            Poster: `https://image.tmdb.org/t/p/w500/${data.poster_path}`
+            movieName: data.original_title,
+            rating: data.vote_average,
+            description: data.overview,
+            runtime: data.runtime,
+            imdb_id: data.imdb_id, // https://www.imdb.com/title/${movie.imdb_id}/
+            genres: data.genres.map((genre) => genre.name).join(', '),
+            poster: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
+            backdrop:`https://image.tmdb.org/t/p/w780${data.backdrop_path}`,
+            release_date: data.release_date,
           }
+          console.log(movie);
           movies.push(movie);
-          console.log(movies);
           return movie;
         })
         .then((movie) => {
-          let item = document.createElement('list-item');
-          item.setAttribute('movieName', movie.Title);
-          item.setAttribute('rating', movie.imdbRating);
-          item.setAttribute('description', movie.Plot);
-          item.setAttribute('movieThumbnail', movie.Poster);
-
-          document.getElementById('movie-list').append(item)
+          addListItem(movie);
+          document.getElementById('search-input').value = '';
         })
         .catch((err) => new Error(err));
     } else {
@@ -45,25 +45,33 @@ class AddMovie extends HTMLElement {
 
   connectedCallback() {
     this.render();
-    document.getElementById('submit-button').addEventListener('click', this.fetchMovies);
+    document.getElementById('search-button').addEventListener('click', this.fetchMovies);
+    document.getElementById('search-form').addEventListener('submit', this.fetchMovies);
   }
 
   render() {
     this.innerHTML = `
-      <div>
-        <form>
-          <label for="search-input">Search: </label>
-          <input type="text" id="search-input" name="search-input">
+      <div class="search-container">
+        <form class="search-form" id="search-form">
+          <input
+            type="text"
+            class="search-input"
+            id="search-input"
+            name="search-input"
+            placeholder="Search for a movie!">
           <input
             type="button"
-            id="submit-button"
+            id="search-button"
+            class="search-button"
             name="submit-button"
-            value="Search"
+            value="🔍"
           >
-        </form>
+          </form>
       </div>
     `
   };
 }
+
+customElements.define('add-movie', AddMovie);
 
 export default AddMovie;
