@@ -16,5 +16,3 @@ This is a simple movie list application written in vanilla JavaScript.
 
 ### Resizing
 ![resize_demo](https://i.imgur.com/u6Uvhse.gif)
-
-.
