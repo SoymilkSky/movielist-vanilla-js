@@ -15,4 +15,4 @@ This is a simple movie list application written in vanilla JavaScript.
 ![imdb_demo](https://i.imgur.com/SvgzoHz.gif)
 
 ### Resizing
-![resize_demo](https://i.imgur.com/u6Uvhse.gif)
+![resize](https://i.imgur.com/y4SSTWY.gif)
